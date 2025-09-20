@@ -1,15 +1,46 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Be+Vietnam+Pro:wght@300;400;500;600;700&display=swap");
 
 :root {
+  /* Base */
   --background: #ffffff;
   --foreground: #171717;
+
+  /* Marcel theme colors */
+  --beige: #fff5dc; /* light background, light text on dark */
+  --maroon: #4d0211; /* burgundy: dark background, body text on light */
+  --brown-heading: #4d0211; /* headings use burgundy for uniformity */
+
+  /* Derived tokens */
+  --maroon-darker: #3a010d; /* ~15% darker burgundy for lip */
+  --border-color: var(--maroon);
+  --border-color-dark: #30010a;
+
+  /* Typography */
+  --font-heading: "Cormorant Garamond", serif; /* headings */
+  --font-body: "Be Vietnam Pro", system-ui, -apple-system, Segoe UI, Roboto,
+    Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+
+  /* Radii & spacing */
+  --radius-lg: 16px;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
 }
 
+/* Tailwind design tokens mapping */
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-body);
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -20,7 +51,329 @@
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--beige);
+  color: var(--maroon);
+  font-family: var(--font-body);
+  font-synthesis: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Typography utilities */
+.font-heading {
+  font-family: var(--font-heading);
+  font-weight: 400 !important; /* Ensure normal weight is maintained */
+}
+.font-body {
+  font-family: var(--font-body);
+  font-weight: 400; /* Normal weight for body text */
+}
+
+/* Ensure headings maintain normal weight */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 400 !important;
+}
+
+/* Override any Tailwind font weight classes that might interfere */
+.font-normal {
+  font-weight: 400 !important;
+}
+
+/* Color utilities */
+.bg-light {
+  background-color: var(--beige);
+}
+.bg-dark {
+  background-color: var(--maroon);
+}
+.text-body {
+  color: var(--maroon);
+}
+.text-heading {
+  color: var(--brown-heading);
+}
+.text-light {
+  color: var(--beige);
+}
+
+/* Layout */
+.container {
+  width: 100%;
+  max-width: 1100px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+/* CTA Button styles */
+.btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.9rem 1.25rem;
+  border-radius: var(--radius-lg);
+  border: 3px solid var(--maroon);
+  text-decoration: none;
+  line-height: 1;
+  font-weight: 600;
+  transition: transform 150ms ease, box-shadow 150ms ease;
+  overflow: visible; /* ensure bottom lip is visible */
+}
+
+.btn::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 4px; /* b+1: 3px border → 4px lip */
+  bottom: -4px; /* outside to read as a ledge */
+  background: var(--maroon-darker);
+  border-bottom-left-radius: var(--radius-lg);
+  border-bottom-right-radius: var(--radius-lg);
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+}
+.btn:active {
+  transform: translateY(0);
+}
+
+/* Variants */
+.btn--primary {
+  background: var(--maroon);
+  color: var(--beige);
+}
+.btn--secondary {
+  background: var(--beige);
+  color: var(--maroon);
+}
+
+/* Navbar */
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background-color: var(--maroon); /* solid burgundy background */
+}
+.navbar__inner {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  padding: 6px 0;
+  gap: var(--space-4);
+}
+.navbar__nav {
+  display: flex;
+  gap: var(--space-6);
+}
+.navbar__nav--left {
+  justify-self: start;
+}
+.navbar__logo {
+  justify-self: center;
+  display: flex;
+  align-items: center;
+}
+.navbar__actions {
+  justify-self: end;
+  display: flex;
+  align-items: center;
+}
+.navbar__link {
+  text-decoration: none;
+  color: var(--beige);
+  font-weight: 500;
+  transition: opacity 150ms ease;
+}
+.navbar__link:hover {
+  opacity: 0.8;
+}
+
+/* Footer - Only color and font variables remain */
+
+/* Hero styles moved to CSS Module */
+
+/* Sections */
+.section {
+  padding: var(--space-8) 0;
+}
+.section__title {
+  font-size: clamp(1.75rem, 3.5vw, 2.25rem);
+  margin-bottom: var(--space-3);
+}
+.section__body {
+  max-width: 70ch;
+}
+
+/* About */
+.about {
+  text-align: center;
+  min-height: 100vh; /* ensure full viewport height */
+  display: flex;
+  flex-direction: column;
+}
+.about__title {
+  margin-top: var(--space-8);
+  margin-bottom: var(--space-6);
+  /* Match hero title sizing */
+  font-size: clamp(2.25rem, 5.4vw, 3.5rem);
+  line-height: 1;
+}
+.about__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-6);
+  align-items: center;
+  flex: 1; /* fill remaining height below heading */
+}
+.about__left,
+.about__right {
+  text-align: left;
+}
+.about__left {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* distribute three items vertically */
+}
+.about-item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-3) 0;
+}
+.about-item__head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+.about-item__icon {
+  display: inline-flex;
+  width: 28px;
+  height: 28px;
+  color: var(--maroon);
+}
+.about-item__title {
+  /* One step below main heading (use section title scale) */
+  font-size: clamp(1.75rem, 3.5vw, 2.25rem);
+}
+.about-item__body {
+  margin-left: calc(28px + var(--space-3));
+  /* Match hero subtitle sizing */
+  font-size: clamp(1.05rem, 1.4vw, 1.25rem);
+}
+.about__image {
+  width: 100%;
+  max-width: 500px; /* slightly smaller */
+  height: auto;
+  max-height: 58vh;
+  object-fit: contain;
+}
+
+@media (min-width: 900px) {
+  .about__grid {
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: var(--space-8);
+  }
+  .about__title {
+    margin-bottom: var(--space-8);
+  }
+  .about__right {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+/* Cards / grids */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--space-4);
+}
+.card {
+  background: var(--beige);
+  border: 1px solid var(--maroon);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
+}
+.card__title {
+  font-size: 1.25rem;
+  margin-bottom: var(--space-2);
+}
+.card__desc {
+  margin-bottom: var(--space-3);
+}
+.card__btn {
+  align-self: start;
+}
+
+/* CTA block */
+.cta {
+  padding: var(--space-8) 0;
+}
+.cta__desc {
+  color: var(--beige);
+  margin-top: var(--space-2);
+  opacity: 0.95;
+}
+.cta__actions {
+  display: flex;
+  gap: var(--space-3);
+  margin-top: var(--space-5);
+}
+
+@media (min-width: 900px) {
+  /* CTA styles moved to CSS Module */
+}
+
+/* Marquee */
+.marquee {
+  background: var(--maroon);
+  color: var(--beige);
+  border-top: 1px solid var(--border-color-dark);
+  border-bottom: 1px solid var(--border-color-dark);
+  overflow: hidden;
+}
+.marquee__track {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-6);
+  padding: 0.65rem 0; /* slightly taller for readability */
+  white-space: nowrap;
+  animation: marquee-scroll 28s linear infinite;
+  will-change: transform;
+}
+.marquee__item {
+  font-family: var(--font-body);
+  font-weight: 600;
+  letter-spacing: 0.25px;
+}
+.marquee__dot {
+  opacity: 0.7;
+}
+@keyframes marquee-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* Swiper styles */
+.merch-swiper {
+  padding: 20px 0 !important;
+}
+
+.merch-swiper .swiper-slide {
+  height: auto;
 }
