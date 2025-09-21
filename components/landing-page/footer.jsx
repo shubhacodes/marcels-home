@@ -130,6 +130,12 @@ export default function Footer() {
         <div className="text-[var(--beige)] opacity-85 text-xs md:text-sm mt-2 md:mt-4 text-center">
           © {new Date().getFullYear()} Marcel's. All Rights Reserved.
         </div>
+
+        {/* Attribution */}
+        <div className="text-[var(--beige)] opacity-70 text-xs md:text-sm mt-2 text-center">
+          Made with ❤️ from 4o4. This is just a mockup for demonstration
+          purposes
+        </div>
       </div>
     </footer>
   );
